@@ -1,0 +1,12 @@
+{
+	"name": "umenzi for Makerlog",
+	"short_name": "Umenzi",
+	"lang": "en",
+	"display": "standalone",
+	"theme_color": " #00B77A",
+	"background_color": "#ffffff",
+	"icons": [{
+		"sizes": "100x100",
+		"src": "apple-touch-icon.png"
+	}]
+}

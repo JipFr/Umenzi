@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+			
+		<!-- Global site tag (gtag.js) - Google Analytics -->
+		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-111004523-6"></script>
+		<script>
+		  window.dataLayer = window.dataLayer || [];
+		  function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
+
+			gtag('config', 'UA-111004523-6');
+		</script>
+
+
+		<title>Umenzi for Makerlog</title>
+		<link rel="manifest" href="manifest.json">
+		<!-- Apple stuff. -->
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+		<!-- <meta name="apple-mobile-web-app-status-bar-style" content="white"> -->
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="mobile-web-app-capable" content="yes">
+
+		<link rel="apple-touch-icon" href="apple-touch-icon.png">
+		<meta name="theme-color" content="#00B77A">
+		<meta charset="utf-8">
+		
+		<link rel="apple-touch-startup-image" href="launch.png">
+				
+		<!-- Basic stuff -->
+		<link rel="stylesheet" href="style.css?">
+		<link rel="icon" href="apple-touch-icon.png">
+		<meta name="description" content="Umenzi for Makerlog is a simplified Makerlog interface with minimum distraction. Designed for your productivity.">
+		<meta name="keywords" content="Umenzi for Makerlog">
+		<!-- This is supposed to help with rich preview. -->
+		<meta name="og:description" content="Umenzi for Makerlog is a simplified Makerlog interface with minimum distraction. Designed for your productivity.">
+		<meta name="og:title" content="Umenzi for Makerlog">
+		<meta name="og:image" content="apple-touch-icon.png">
+		<!-- Viewport -->
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui, viewport-fit=cover">
+		<!-- Twitter stuff -->
+		<meta name="twitter:card" content="summary" />
+		<meta name="twitter:site" content="@jipfr" />
+		<meta name="twitter:creator" content="@jipfr" />
+		<meta name="twitter:title" content="Umenzi for Makerlog">
+		<meta name="twitter:description" content="Umenzi for Makerlog is Makerlog, simplified." />
+		<meta name="twitter:image:src" content="https://umenzi.jipfr.nl/apple-touch-icon.png" />
+	</head>
+	<body data-theme="light">
+		<script>
+			updateTheme();
+			function updateTheme() {
+				if(localStorage.getItem("force-theme")) {
+					document.body.setAttribute("data-theme", localStorage.getItem("force-theme"));
+				}
+			}
+			function toggleTheme() {
+				let t = localStorage.getItem("force-theme");
+				if(t == "dark") {
+					t = "light";
+				} else {
+					t = "dark";
+				}
+				localStorage.setItem("force-theme", t);
+				updateTheme();
+			}
+		</script>
+		<div class="templates">
+			<template class="auth">
+				<div class="auth_card card">
+					<div class="auth_img">
+						<img src="apple-touch-icon.png">
+					</div>
+					<h2>Umenzi for Makerlog</h2>
+					<div class="auth_btn">
+						<a href="https://api.getmakerlog.com/oauth/authorize/?client_id=OCjwS1j2z2XGc0aUZXBSYMyZOtCMLZFZ6UdwXGZA&response_type=token">
+							<button>
+								Sign in with Makerlog
+							</button>
+						</a>
+					</div>
+					<div class="auth_alt_reveal">
+						<span onclick="reveal_alt_auth()">Or sign in directly</span>
+					</div>
+					<div class="auth_alt">
+						
+						<div class="auth_direct_inp_div">
+							<p>Username</p>
+							<input class="auth_username" type="text" placeholder="Username">
+						</div>
+						<div class="auth_direct_inp_div">
+							<p>Password</p>
+							<input class="auth_password" type="password" placeholder="Password">
+						</div>
+
+						<div class="auth_error">
+							
+						</div>
+
+						<div class="auth_btn">
+							<button onclick="auth(document.querySelector('.auth_username').value, document.querySelector('.auth_password').value)">
+								Go!
+							</button>
+						</div>
+							
+						</div>
+					</div>
+				</div>
+			</template>
+			<template class="mini_user_template">
+				<div class="mini_user" style="--img_size: 40px;" onclick="load_profile(this.getAttribute('data-user-id'))">
+					<div class="profile_picture_div">
+						<img src="" alt="" class="profile_picture mini_pfp">
+						<div class="profile_picture_overlay"></div>
+					</div>
+					<div class="mini_user_main">
+						<h3 class="name">
+							John Doe
+						</h3>
+						<p class="status">This is John's Status</p>
+					</div>
+				</div>
+			</template>
+			<template class="notif_template">
+				<div class="notif" style="--img_size: 40px;">
+					<div class="profile_picture_div">
+						<img src="" alt="" class="profile_picture">
+						<div class="profile_picture_overlay"></div>
+					</div>
+					<div class="notif_p">
+						<span>...</span>
+					</div>
+				</div>
+			</template>
+			<template class="comment_template">
+				<div class="comment">
+					<div class="comment_left">
+						<img src="" alt="Profile picture">
+					</div>
+					<div class="comment_right">
+						<div class="comment_right_top">
+							<h3 class="name">John Doe</h3>
+							<h3 class="ago">3d</h3>
+						</div>
+						<div class="comment_right_text">
+							<p>Hello!</p>
+						</div>
+					</div>
+				</div>
+			</template>
+			<template class="log_template">
+				<div class="log" data-thread-date="01-01-1970" data-user-id="1">
+					<div class="log_main">
+						<div class="log_left">
+							<div class="profile_picture_div" onclick="load_profile(this.parentNode.parentNode.parentNode.getAttribute('data-user-id'))">
+								<img src="" alt="" class="profile_picture">
+								<div class="profile_picture_overlay"></div>
+							</div>
+							<div class="log_divider"></div>
+						</div>
+						<div class="log_right" onclick="click_log(this, event)">
+							<div class="log_right_top">
+								<h3 class="name">John Doe</h3>
+								<h3 class="ago secondary">0s</h3>
+							</div>
+							<div class="log_c_main">
+								<p class="log_main_content"></p>
+								<img src="" class="log_attachment" alt="Log attachment">
+							</div>
+							<div class="log_lower">
+								<div class="lower_portion more">
+									<div class="portion_icon">
+										<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus-square"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+									</div>
+									<div class="portion_info">
+										<span>1</span>
+									</div>
+								</div>
+								<div class="lower_portion comments">
+									<div class="portion_icon">
+										<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-message-square"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>	
+									</div>
+									<div class="portion_info">
+										<span>1</span>
+									</div>
+								</div>
+								<div class="lower_portion praise" onclick="praise(this.getAttribute('data-task-id'))">
+									<div class="portion_icon">
+										<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-heart"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+									</div>
+									<div class="portion_info">
+										<span>1</span>
+									</div>
+								</div>
+								<div class="lower_portion event">
+									<div class="portion_icon">
+											
+									</div>
+								</div>
+								<div class="lower_portion state">
+									<div class="portion_icon">
+										<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-heart"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+									</div>
+								</div>
+							</div>
+							<div class="log_comments">
+								<div class="n_comments">
+
+								</div>
+								<div class="comment_input_div">
+									<input type="text" onkeyup="event.key == 'Enter' ? send_c(this) : ''; " placeholder="Your comment">
+									<div class="gif_btn" onclick="gif_click(this.getAttribute('data-task-id'))">
+										GIF
+									</div>
+									<button onclick="send_comment(this.parentNode.querySelector('input'))">
+										<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-send"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</template>
+			<template class="loading_div_template">
+				<div class="loading_wrapper">
+					<div class="loading"></div>
+				</div>
+			</template>
+		</div>
+		<div class="all_content">
+			<div class="top_most">
+				<div class="top"></div>
+				<header>
+					<div class="m_w"> 
+						<div>
+							<div class="go_back" onclick="setTab(['tab'], getPrevTab(), false)">
+								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-left"><polyline points="15 18 9 12 15 6"></polyline></svg>
+								<p>Timeline</p>
+							</div>
+						</div>
+						<div>
+							<h3>Timeline</h3>
+						</div>
+						<div>
+							<div class="logo" src="apple-touch-icon.png" onclick="rld()"></div>
+						</div>
+					</div>
+				</header>
+			</div>
+			<div class="fake_top">
+				<div class="loading_wrapper">
+					<div class="loading"></div>
+				</div>
+			</div>
+			<div class="below_top">
+				<div class="fake_nav"></div>
+				<div class="nav_wrapper">
+					<div class="nav m_w spread">
+						<div class="nav_item" data-tab="timeline_c" onclick="setTab(['tab', 'backupTab'], this.getAttribute('data-tab'), false)">
+							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-home"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+						</div>
+						<div class="nav_item" data-tab="notifications_c" onclick="setTab(['tab', 'backupTab'], this.getAttribute('data-tab'), false)">
+							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-bell"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+						</div>
+						<div class="nav_item" data-tab="search_c" onclick="setTab(['tab', 'backupTab'], this.getAttribute('data-tab'), false)">
+							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+						</div>
+						<div class="nav_item" data-tab="settings_c" onclick="setTab(['tab', 'backupTab'], this.getAttribute('data-tab'), false)">
+							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-settings"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+						</div>
+					</div>
+				</div>
+				<div class="main_wrapper containers">
+					<div class="main_content m_w container timeline_c" data-class="timeline_c">
+						<div class="timeline_wrapper">
+							<div class="timeline card">
+
+							</div>
+							<div class="load_card card">
+								<div class="loading_wrapper">
+									<div class="loading"></div>
+								</div>
+							</div>
+						</div>
+						<div class="sidebar_wrapper">
+							<div class="sidebar card">
+								:)
+							</div>
+						</div>
+					</div>
+					<div class="main_content m_w container log_thread swipeable" data-class="log_thread">
+						<div class="thread_main card">
+							<div class="main">
+
+							</div>
+						</div>
+					</div>
+					<div class="main_content m_w container notifications_c" data-class="notifications_c">
+						<div class="notification_main card">
+							<div class="main">
+								<div class="notif_wrapper">
+
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="main_content m_w container search_c" data-class="search_c">
+						<div class="search_main card">
+							<div class="main">
+								<div class="search_input_div">
+									<input class="search_input" placeholder="Insert your search here" onkeyup="event.key == 'Enter' ? this.blur() : '';" onblur="search(this.value)">
+								</div>
+								<div class="search_results_wrapper">
+									<div class="search_users"></div>
+									<div class="search_tasks"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="main_content m_w container settings_c" data-class="settings_c">
+						<div class="thread_main card">
+							<div class="main">
+								<div class="setting_theme setting_bit">
+									<h3>Theme</h3>
+									<div class="toggle_theme" onclick="toggleTheme()">
+										<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+										<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-sun"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+									</div>
+								</div>
+								<div class="setting_filter setting_bit">
+									<h3>Timeline filters</h3>
+									<div class="setting_right">
+										<div class="setting_alt_div">
+											<input type="checkbox" data-filter-setting="github" onchange="toggle_filter(this.getAttribute('data-filter-setting'), this.checked)">
+											<label>Github</label>
+										</div>
+										<div class="setting_alt_div">
+											<input type="checkbox" data-filter-setting="gitlab" onchange="toggle_filter(this.getAttribute('data-filter-setting'), this.checked)">
+											<label>Gitlab</label>
+										</div>
+										<div class="setting_alt_div">
+											<input type="checkbox" data-filter-setting="telegram" onchange="toggle_filter(this.getAttribute('data-filter-setting'), this.checked)">
+											<label>Telegram</label>
+										</div>
+										<div class="setting_alt_div">
+											<input type="checkbox" data-filter-setting="webhook" onchange="toggle_filter(this.getAttribute('data-filter-setting'), this.checked)">
+											<label>Webhook</label>
+										</div>
+										<div class="setting_alt_div">
+											<input type="checkbox" data-filter-setting="todoist" onchange="toggle_filter(this.getAttribute('data-filter-setting'), this.checked)">
+											<label>Todoist</label>
+										</div>
+										<div class="setting_alt_div">
+											<input type="checkbox" data-filter-setting="trello" onchange="toggle_filter(this.getAttribute('data-filter-setting'), this.checked)">
+											<label>Trello</label>
+										</div>
+										<div class="setting_alt_div">
+											<input type="checkbox" data-filter-setting="shipstreams" onchange="toggle_filter(this.getAttribute('data-filter-setting'), this.checked)">
+											<label>Shipstreams</label>
+										</div>
+										<div class="setting_alt_div">
+											<input type="checkbox" data-filter-setting="null" onchange="toggle_filter(this.getAttribute('data-filter-setting'), this.checked)">
+											<label>Others</label>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="overlay gif_overlay">
+						<div class="card">
+							<div class="search_gif_top">
+								<input class="search_gif" placeholder="Find a GIF!" onkeyup="event.key == 'Enter' ? search_gifs(this.value) : ''">
+								<div class="search_gif_close" onclick="toggle_gif_overlay()">
+									<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+								</div>
+							</div>
+							<div class="search_gif_content">
+
+							</div>
+						</div>
+					</div>
+					<div class="main_content m_w container profile_c swipeable" data-class="profile_c">
+						<div class="profile_main card">
+							<div class="main">
+								<div class="profile_top">
+									<div class="profile_header">
+										<img class="profile_header_img" onerror="this.src = empty_img">
+										
+										<div class="profile_picture_div profile_img_div" style="--img_size: calc(130px + 5px + 5px);">
+											<img src="" alt="" class="profile_picture profile_img">
+											<div class="profile_picture_overlay"></div>
+										</div>
+
+									</div>
+									<div class="profile_text">
+										<h2 class="full_name">John Doe</h2>
+										<p>@<span class="username">john</span></p>
+									</div>
+								</div>
+								<div class="profile_logs">
+									
+								</div>
+								<div class="load_card card">
+									<div class="loading_wrapper">
+										<div class="loading"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script src="showdownjs-showdown-9189979/dist/showdown.min.js"></script>
+	<script src="before_tabs.js"></script>
+	<script>defaultTab = "timeline_c"</script>
+	<script src="tabs.js"></script>
+	<script src="main.js"></script>
+</html>
